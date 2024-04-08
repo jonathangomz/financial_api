@@ -1,5 +1,5 @@
 import { registerAs } from "@nestjs/config";
 
 export default registerAs('database', () => ({
-  url: process.env.DATABASE_URI,
+  uri: process.env.DATABASE_URI,
 }));
