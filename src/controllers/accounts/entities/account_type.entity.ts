@@ -7,6 +7,9 @@ export type AccountTypeDocument = HydratedDocument<AccountType>;
 export class AccountType {
   @Prop()
   name: string;
+
+  @Prop()
+  identifier: string;
 }
 
 export const AccountTypeSchema = SchemaFactory.createForClass(AccountType);

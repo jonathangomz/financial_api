@@ -1,12 +1,10 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { HydratedDocument, Types } from "mongoose";
-import { AccountType } from "./account_type.entity";
-import { MovementType } from "./movement_type.entity";
-import { MovementSubtype } from "./movement_subtype.entity";
+import { Movement } from "./movement.entity";
 
 export type InfoCreditMovementDocument = HydratedDocument<InfoCreditMovement>;
 
-@Schema({ timestamps: true })
+@Schema({ _id: false })
 export class InfoCreditMovement {
   @Prop({
     default: false
@@ -16,13 +14,14 @@ export class InfoCreditMovement {
   @Prop({
     default: undefined
   })
-  msi: number;
+  months: number;
 
-  @Prop({
+  @Prop({    
     default: undefined,
-    ref: MovementType.name
+    type: Types.ObjectId,
+    ref: 'movements'
   })
-  msiMovementId: MovementType;
+  deferredMovement: Movement;
 }
 
 export const InfoCreditMovementSchema = SchemaFactory.createForClass(InfoCreditMovement);

@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { AccountsService } from './accounts.service';
 import { CreateAccountDto } from './dto/create-account.dto';
 import { UpdateAccountDto } from './dto/update-account.dto';
+import { CreateMovementDto } from './dto/create-movement.dto';
 
 @Controller('accounts')
 export class AccountsController {
@@ -19,7 +20,7 @@ export class AccountsController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.accountsService.findOne(+id);
+    return this.accountsService.findSingleAccount(id);
   }
 
   @Patch(':id')
@@ -29,6 +30,28 @@ export class AccountsController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.accountsService.remove(+id);
+    return this.accountsService.remove(id);
+  }
+
+
+
+  @Post(':id/movements')
+  createMovement(@Param('id') id: string, @Body() createMovementDto: CreateMovementDto) {
+    return this.accountsService.createMovement(id, createMovementDto);
+  }
+
+  @Get(':id/movements')
+  findMovements(@Param('id') id: string) {
+    return this.accountsService.findAllMovements(id);
+  }
+
+  @Get(':accountId/movements/:movementId')
+  findOneMovement(@Param('accountId') accountId: string, @Param('movementId') movementId: string) {
+    return this.accountsService.findOneMovements(accountId, movementId);
+  }
+
+  @Delete(':accountId/movements/:movementId')
+  removeMovement(@Param('accountId') accountId: string, @Param('movementId') movementId: string) {
+    return this.accountsService.removeMovement(accountId, movementId);
   }
 }

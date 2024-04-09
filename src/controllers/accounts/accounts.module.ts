@@ -8,7 +8,7 @@ import { InfoCreditAccount, InfoCreditAccountSchema } from './entities/info_cred
 import { InfoCreditMovement, InfoCreditMovementSchema } from './entities/info_credit_movement.entity';
 import { AccountType, AccountTypeSchema } from './entities/account_type.entity';
 import { MovementType, MovementTypeSchema } from './entities/movement_type.entity';
-import { MovementSubtype, MovementSubtypeSchema } from './entities/movement_subtype.entity';
+import { Tag, TagSchema } from './entities/tag.entity';
 
 @Module({
   imports: [MongooseModule.forFeature([
@@ -18,7 +18,7 @@ import { MovementSubtype, MovementSubtypeSchema } from './entities/movement_subt
     { name: InfoCreditMovement.name, schema: InfoCreditMovementSchema },
     { name: AccountType.name, schema: AccountTypeSchema },
     { name: MovementType.name, schema: MovementTypeSchema },
-    { name: MovementSubtype.name, schema: MovementSubtypeSchema },
+    { name: Tag.name, schema: TagSchema },
   ])],
   controllers: [AccountsController],
   providers: [AccountsService],

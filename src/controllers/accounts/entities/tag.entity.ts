@@ -1,15 +1,15 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { HydratedDocument } from "mongoose";
 
-export type MovementTypeDocument = HydratedDocument<MovementType>;
+export type TagDocument = HydratedDocument<Tag>;
 
 @Schema()
-export class MovementType {
+export class Tag {
   @Prop()
   _id: number;
-
+  
   @Prop()
   name: string;
 }
 
-export const MovementTypeSchema = SchemaFactory.createForClass(MovementType);
+export const TagSchema = SchemaFactory.createForClass(Tag);

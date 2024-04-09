@@ -1,16 +1,15 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { HydratedDocument, Types } from "mongoose";
-import { AccountType } from "./account_type.entity";
+import { HydratedDocument } from "mongoose";
 
 export type InfoCreditAccountDocument = HydratedDocument<InfoCreditAccount>;
 
-@Schema({ timestamps: true })
+@Schema({ _id: false })
 export class InfoCreditAccount {
   @Prop()
   limit: number;
 
   @Prop()
-  cutoffDate: Date;
+  cutoffDay: number;
 
   @Prop()
   daysPaymentLimit: number;
