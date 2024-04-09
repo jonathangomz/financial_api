@@ -11,6 +11,7 @@ import { MovementType } from './entities/movement_type.entity';
 import { Tag } from './entities/tag.entity';
 import { InfoCreditMovement } from './entities/info_credit_movement.entity';
 import { InfoCreditAccount } from './entities/info_credit_account.entity';
+import { UpdateMovementDto } from './dto/update-movement.dto';
 
 @Injectable()
 export class AccountsService {
@@ -157,7 +158,7 @@ export class AccountsService {
 
   async findOneMovements(accountId: string, movementId: string) {
     // Search for the account
-    const account = await this.findOne(accountId).populate('movements', {'__v': false}, this.movementModel, { 'deletedAt': undefined });
+    const account = await this.findOne(accountId);
     if(!account) {
       throw new NotFoundException('No se encontró la cuenta');
     }
@@ -171,9 +172,36 @@ export class AccountsService {
     return movement;
   }
 
+  async updateMovement(accountId: string, movementId: string, updateMovementDto: UpdateMovementDto) {
+    // Search for the account
+    const account = await this.findOne(accountId);
+    if(!account) {
+      throw new NotFoundException('No se encontró la cuenta');
+    }
+
+    // Search for the movement
+    const oldMovement = await this.movementModel.findById(movementId);
+    if(!oldMovement) {
+      throw new NotFoundException('No se encontró el movimiento');
+    }
+
+    const updatedMovement = await this.movementModel.updateOne({ _id: oldMovement._id }, { ...updateMovementDto });
+
+    // If the amount change then recalculate the total
+    if(updateMovementDto.amount) {
+      // Revert the last total
+      account.total = account.total + (oldMovement.amount * -1);
+      // Apply the new amount
+      account.total = account.total + updateMovementDto.amount;
+      await account.save();  
+    }
+
+    return updatedMovement;
+  }
+
   async removeMovement(accountId: string, movementId: string) {
     // Search for the account
-    const account = await this.findOne(accountId).populate('movements', {'__v': false}, this.movementModel, { 'deletedAt': undefined });
+    const account = await this.findOne(accountId);
     if(!account) {
       throw new NotFoundException('No se encontró la cuenta');
     }

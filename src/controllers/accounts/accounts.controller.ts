@@ -3,6 +3,7 @@ import { AccountsService } from './accounts.service';
 import { CreateAccountDto } from './dto/create-account.dto';
 import { UpdateAccountDto } from './dto/update-account.dto';
 import { CreateMovementDto } from './dto/create-movement.dto';
+import { UpdateMovementDto } from './dto/update-movement.dto';
 
 @Controller('accounts')
 export class AccountsController {
@@ -48,6 +49,11 @@ export class AccountsController {
   @Get(':accountId/movements/:movementId')
   findOneMovement(@Param('accountId') accountId: string, @Param('movementId') movementId: string) {
     return this.accountsService.findOneMovements(accountId, movementId);
+  }
+
+  @Patch(':accountId/movements/:movementId')
+  updateMovement(@Param('accountId') accountId: string, @Param('movementId') movementId: string, @Body() updateMovementDto: UpdateMovementDto) {
+    return this.accountsService.updateMovement(accountId, movementId, updateMovementDto);
   }
 
   @Delete(':accountId/movements/:movementId')
